@@ -24,4 +24,8 @@ You configure providers in your Terraform code to interact with the desired infr
 
 10. **Immutable Infrastructure**: Terraform promotes the concept of immutable infrastructure by treating infrastructure as disposable and recreating it from scratch whenever changes are required. This approach enhances reliability, consistency, and predictability of infrastructure deployments.
 
+11. **Plan**: A Terraform plan is a preview of changes that Terraform will make to your infrastructure. When you run `terraform plan`, Terraform analyzes your configuration and current state, then generates a plan detailing what actions it will take during the `apply` step.
+
+12. **Apply**: The `terraform apply` command is used to execute the changes specified in the plan. It creates, updates, or destroys resources based on the Terraform configuration.
+
 These are some of the essential terms you'll encounter when working with Terraform. As you start using Terraform for your infrastructure provisioning and management, you'll become more familiar with these concepts and how they fit together in your IaC workflows.

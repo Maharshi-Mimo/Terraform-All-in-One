@@ -10,3 +10,38 @@ It includes an expression syntax that allows basic inline computation and, with 
 
 HCL provides a set of constructs that can be used by a calling application to construct a configuration language. The application defines which attribute names and nested block types are expected, and HCL parses the configuration file, verifies that it conforms to the expected structure, and returns high-level objects that the application can use for further processing.
 
+```hcl
+package main
+
+import (
+	"log"
+
+	"github.com/hashicorp/hcl/v2/hclsimple"
+)
+
+type Config struct {
+	IOMode  string        `hcl:"io_mode"`
+	Service ServiceConfig `hcl:"service,block"`
+}
+
+type ServiceConfig struct {
+	Protocol   string          `hcl:"protocol,label"`
+	Type       string          `hcl:"type,label"`
+	ListenAddr string          `hcl:"listen_addr"`
+	Processes  []ProcessConfig `hcl:"process,block"`
+}
+
+type ProcessConfig struct {
+	Type    string   `hcl:"type,label"`
+	Command []string `hcl:"command"`
+}
+
+func main() {
+	var config Config
+	err := hclsimple.DecodeFile("config.hcl", nil, &config)
+	if err != nil {
+		log.Fatalf("Failed to load configuration: %s", err)
+	}
+	log.Printf("Configuration is %#v", config)
+}
+```

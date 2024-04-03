@@ -56,3 +56,46 @@ HCL attempts to strike a compromise between generic serialization formats such a
 HCL is intended as a base syntax for configuration formats built around key-value pairs and hierarchical blocks whose structure is well-defined by the calling application, and this definition of the configuration structure allows for better error messages and more convenient definition within the calling application.
 
 It can't be denied that JSON is very convenient as a lingua franca for interoperability between different pieces of software. Because of this, HCL defines a common configuration model that can be parsed from either its native syntax or from a well-defined equivalent JSON structure. This allows configuration to be provided as a mixture of human-authored configuration files in the native syntax and machine-generated files in JSON.
+
+# Information Model and Syntax
+
+HCL is built around two primary concepts: attributes and blocks. In native syntax, a configuration file for a hypothetical application might look something like this:
+
+```hcl 
+io_mode = "async"
+
+service "http" "web_proxy" {
+  listen_addr = "127.0.0.1:8080"
+  
+  process "main" {
+    command = ["/usr/local/bin/awesome-app", "server"]
+  }
+
+  process "mgmt" {
+    command = ["/usr/local/bin/awesome-app", "mgmt"]
+  }
+}
+```
+The JSON equivalent of this configuration is the following:
+
+```json
+{
+  "io_mode": "async",
+  "service": {
+    "http": {
+      "web_proxy": {
+        "listen_addr": "127.0.0.1:8080",
+        "process": {
+          "main": {
+            "command": ["/usr/local/bin/awesome-app", "server"]
+          },
+          "mgmt": {
+            "command": ["/usr/local/bin/awesome-app", "mgmt"]
+          },
+        }
+      }
+    }
+  }
+}
+```
+Regardless of which syntax is used, the API within the calling application is the same. It can either work directly with the low-level attributes and blocks, for more advanced use-cases, or it can use one of the decoder packages to declaratively extract into either Go structs or dynamic value structures.

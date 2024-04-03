@@ -99,3 +99,25 @@ The JSON equivalent of this configuration is the following:
 }
 ```
 Regardless of which syntax is used, the API within the calling application is the same. It can either work directly with the low-level attributes and blocks, for more advanced use-cases, or it can use one of the decoder packages to declaratively extract into either Go structs or dynamic value structures.
+
+Attribute values can be expressions as well as just literal values:
+
+```
+# Arithmetic with literals and application-provided variables
+sum = 1 + addend
+
+# String interpolation and templates
+message = "Hello, ${name}!"
+
+# Application-provided functions
+shouty_message = upper(message)
+```
+Although JSON syntax doesn't permit direct use of expressions, the interpolation syntax allows use of arbitrary expressions within JSON strings:
+
+```json
+{
+  "sum": "${1 + addend}",
+  "message": "Hello, ${name}!",
+  "shouty_message": "${upper(message)}"
+}
+```

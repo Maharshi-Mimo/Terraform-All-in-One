@@ -4,12 +4,12 @@ provider "aws" {
 
 resource "aws_instance" "ec2" {
     ami = "ami-03bb6d83c60fc5f7c" #this is Ubuntu image for ap-south-1 location. 
-    instance_type = "t2.micro"
-    key_name = "K8s-project" #give your own key name here
+    instance_type = "t2.micro" #give the instance type based on demand requirement. 
+    key_name = "K8sproject" #give your own key name here
+    subnet_id = aws_subnet.example.id
     tags = {
         Name = "ec2-instance"
-    
-}
+    }
 }
 
 resource "aws_ec2_instance_state" "ec2_state" {

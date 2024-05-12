@@ -15,3 +15,4 @@ resource "aws_instance" "example" {
         Name = "Web- ${terraform.workspace}"
     }
 }
+```
